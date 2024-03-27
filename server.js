@@ -1,11 +1,19 @@
 const express = require("express");
 const path = require("path");
 const exphbs = require('express-handlebars');
+const hbs = exphbs.create({});
 
-const PORT = 3001;
+// set up the express app
 const app = express();
+const PORT = process.env.PORT || 3001;
 
-// We can send a body parameter to the client using the res.send() method. This body parameter can be a string, buffer, or even an array.
+// set handlebars as the templating engine
+app.engine('handlebars', hbs.engine);
+app.set('view engine', 'handlebars');
+
+// middleware to look for static files in the public folder
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "views/index.html"));
 });
