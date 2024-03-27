@@ -18,12 +18,12 @@ app.use(express.json());
 // middleware to parse incoming request bodies in url encoded format commonly sent by HTML forms when data is submitted
 app.use(express.urlencoded({ extended: false }));
 
-// middleware to look for static files in the public folder
+// middleware to look for static files in the views folder
 app.use(express.static(path.join(__dirname, "public")));
 
 // route to landing page
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "views/index.html"));
+  res.send(path.join(__dirname, "index"));
 });
 
 // starts the server
