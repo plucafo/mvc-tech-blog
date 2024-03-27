@@ -21,9 +21,14 @@ app.use(express.urlencoded({ extended: false }));
 // middleware to look for static files in the public folder
 app.use(express.static(path.join(__dirname, "public")));
 
-// route to landing page
+// route to static html file
 app.get("/", (req, res) => {
-  res.send(path.join(__dirname, "index"));
+  res.sendFile(path.join(__dirname, "index"));
+});
+
+// route to handlebars page
+app.get('/handlebars', (req, res) => {
+  res.render('all', { layout: 'main' });
 });
 
 // starts the server
