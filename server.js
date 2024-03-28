@@ -3,8 +3,8 @@ const express = require("express");
 const path = require("path");
 const handlebars = require("express-handlebars");
 const hbs = handlebars.create({});
-const routes = require('./controllers');
-const sequelize = require('./config/connection');
+const routes = require("./controllers");
+const sequelize = require("./config/connection");
 
 // set up the express app
 const app = express();
@@ -29,11 +29,15 @@ app.use(express.static(path.join(__dirname, "public")));
 // });
 
 // route to handlebars page
-app.get('/', (req, res) => {
-  res.render('all', { layout: 'main' });
+app.get("/", (req, res) => {
+  res.render("all", { layout: "main" });
 });
 
 // starts the server
-app.listen(PORT, () =>
-  console.log(`Example app listening at http://localhost:${PORT}`)
-);
+// app.listen(PORT, () =>
+//   console.log(`Example app listening at http://localhost:${PORT}`)
+// );
+
+sequelize.sync({ force: false }).then(() => {
+  app.listen(PORT, () => console.log(`listening at http://localhost:${PORT}`));
+});
