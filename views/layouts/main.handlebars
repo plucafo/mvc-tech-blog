@@ -1,20 +1,26 @@
-{{!-- handlebars html template --}}
-<!DOCTYPE html>
+{{! handlebars html template }}
+
 <html>
   <head>
     <meta charset="UTF-8" />
     <title>Potluck Party</title>
-    <link rel="stylesheet" href="/css/jass.css" />
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
-    <div class="flex-column justify-space-around">
-      <header class="display-flex justify-space-between align-center p-2">
-      </header>
-      <main class="container container-fluid mt-5">
-        {{{ body }}}
-      </main>
-    </div>
+    <header class="header bg-slate-600 text-white p-5">
+      <nav class="space-x-10">
+        <a href="https://google.com">Home</a>
+        <a href="https://google.com">Dashboard</a>
+        <a href="https://google.com">Login</a>
+        <a href="https://google.com">Logout</a>
+      </nav>
+    </header>
+    <main>
+      {{{body}}}
+    </main>
+
   </body>
 </html>
