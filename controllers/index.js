@@ -1,7 +1,7 @@
-const router = require('express').Router();
+const router = require("express").Router();
 
-router.get('/', async (req, res) => {
-    res.send('../views/index')
-  });
+const homeRoutes = require("./home-routes");
+
+router.use("/", homeRoutes);
 
 module.exports = router;

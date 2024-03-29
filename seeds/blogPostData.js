@@ -1,4 +1,4 @@
-const sequelize = require('../config/connection');
+const sequelize = require("../config/connection");
 const BlogPost = require("../models/BlogPost");
 
 const blogPostData = [
@@ -17,9 +17,9 @@ const blogPostData = [
 ];
 
 const seedBlogPost = async () => {
-    await sequelize.sync({ force: true });
-    await BlogPost.bulkCreate(blogPostData);
-    process.exit(0)
-}
+  await sequelize.sync({ force: true });
+  await BlogPost.bulkCreate(blogPostData);
+  process.exit(0);
+};
 
 seedBlogPost();
