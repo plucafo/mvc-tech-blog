@@ -1,6 +1,7 @@
 // import Sequelize and the connection to your database
 const { Model, DataTypes } = require("sequelize");
 const sequelize = require("../config/connection");
+// const Comment = require('./Comment')
 
 // define the BlogPost model by extending the Model class from sequelize
 class BlogPost extends Model {}
