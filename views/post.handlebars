@@ -1,2 +1,9 @@
-{{!-- this will be the front end page to view a single post --}}
-<h1>Hello, Post!</h1>
+<div class="card">
+  <div class="card-header">
+    <h2>{{post.title}}</h2>
+    <span>Posted by {{post.author}} on {{formatDate post.createdAt}}</span>
+  </div>
+  <div class="card-body">
+    <p>{{post.content}}</p>
+  </div>
+</div>
