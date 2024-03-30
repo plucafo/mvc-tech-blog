@@ -10,7 +10,18 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // needs descriptive comment
-const hbs = exphbs.create({});
+const hbs = exphbs.create({
+  helpers: {
+    formatDate(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+    }
+  }
+});
 
 // set handlebars as the templating engine
 app.engine('handlebars', hbs.engine);
