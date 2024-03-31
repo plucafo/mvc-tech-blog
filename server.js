@@ -1,10 +1,14 @@
 // dependencies
 const express = require("express");
-const sequelize = require("./config/connection");
+const session = require('express-session');
 const path = require("path");
 const exphbs = require("express-handlebars");
 const routes = require("./controllers");
-const { BlogPost, Comment } = require("./models");
+const { BlogPost, Comment, User } = require("./models");
+
+// sequelize and SequelizeStore dependencies
+const sequelize = require("./config/connection");
+const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
 // set up the express app
 const app = express();
@@ -27,6 +31,24 @@ const hbs = exphbs.create({
     }
   }
 });
+
+// create session object for user auth
+const sess = {
+  secret: 'Super secret secret',
+  cookie: {
+    maxAge: 300000,
+    httpOnly: true,
+    secure: false,
+    sameSite: 'strict',
+  },
+  resave: false,
+  saveUninitialized: true,
+  store: new SequelizeStore({
+    db: sequelize
+  })
+};
+
+app.use(session(sess));
 
 // set handlebars as the templating engine
 app.engine('handlebars', hbs.engine);

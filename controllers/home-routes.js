@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const BlogPost = require("../models/BlogPost");
 const Comment = require("../models/Comment");
+const withAuth = require('../utils/auth');
 
 // home '/' route to show all blog posts
 router.get("/", async (req, res) => {
@@ -53,7 +54,7 @@ router.post("/post/:id", async (req, res) => {
 });
 
 // dashboard route
-router.get("/dashboard", async (req, res) => {
+router.get("/dashboard", withAuth, async (req, res) => {
   const logoText = "Dashboard";
   res.render("dashboard", { logoText });
 });
