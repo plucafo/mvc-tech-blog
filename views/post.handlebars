@@ -1,2 +1,47 @@
-{{!-- this will be the front end page to view a single post --}}
-<h1>Hello, Post!</h1>
+{{! post card }}
+<div class="card">
+  <div class="card-header">
+    <h2>{{post.title}}</h2>
+    <span>Posted by {{post.author}} on {{formatDate post.createdAt}}</span>
+  </div>
+  <div class="card-body">
+    <p>{{post.content}}</p>
+  </div>
+</div>
+
+{{#each post.Comments}}
+    <div class="card comment-card">
+      <div class="card-header">
+        <h2>{{this.author}}</h2>
+        <span>Posted on {{formatDate this.createdAt}}</span>
+      </div>
+      <div class="card-body">
+        <p>{{this.comment}}</p>
+      </div>
+    </div>
+  {{/each}}
+
+{{! comment form card }}
+<div class="card comment-card">
+  <div class="card-header">
+    <h2>Add a Comment</h2>
+  </div>
+  <div class="card-body">
+    <form action="/post/{{post.id}}" method="POST">
+      <div class="form-group">
+        <label for="comment"></label>
+        <textarea
+          id="comment"
+          name="comment"
+          class="comment-field"
+          rows="3"
+          required
+        ></textarea>
+      </div>
+      <button
+        type="submit"
+        class="btn btn-primary comment-submit"
+      >Submit</button>
+    </form>
+  </div>
+</div>
