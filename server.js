@@ -20,6 +20,10 @@ const hbs = exphbs.create({
         month: 'long', 
         day: 'numeric' 
       });
+    },
+
+    commentCounter(index) {
+      return index + 1
     }
   }
 });

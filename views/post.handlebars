@@ -13,7 +13,7 @@
 {{#each post.Comments}}
   <div class="card comment-card">
     <div class="card-header">
-      <h2>{{this.author}}</h2>
+      <h2 id="commentCounter">#{{commentCounter @index}}</h2>
       <span>Posted on {{formatDate this.createdAt}}</span>
     </div>
     <div class="card-body">
