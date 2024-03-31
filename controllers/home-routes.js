@@ -64,4 +64,10 @@ router.get("/login", async (req, res) => {
   res.render("login", { logoText });
 });
 
+// signup route
+router.get("/signup", async (req, res) => {
+  const logoText = "Sign Up";
+  res.render("signup", { logoText });
+});
+
 module.exports = router;

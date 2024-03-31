@@ -84,3 +84,52 @@
   font-weight: bold;
   box-shadow: 5px 5px 0px var(--secondary);
 }
+
+/* login styles */
+.login-card {
+  width: 100%;
+  margin: 20px;
+}
+
+.login-card .card-header {
+  background-color: var(--primary);
+  color: white;
+}
+
+.login-card .card-body {
+  padding: 16px;
+}
+
+.login-card .form-group {
+  margin-bottom: 15px;
+}
+
+.login-card label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.login-card input[type="text"],
+.login-card input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid var(--primary);
+  border-radius: 5px;
+}
+
+.login-card button[type="submit"] {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-card button[type="submit"]:hover {
+  background-color: var(--secondary);
+}
