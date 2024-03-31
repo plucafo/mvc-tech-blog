@@ -9,17 +9,18 @@
   </div>
 </div>
 
+{{!-- comment card --}}
 {{#each post.Comments}}
-    <div class="card comment-card">
-      <div class="card-header">
-        <h2>{{this.author}}</h2>
-        <span>Posted on {{formatDate this.createdAt}}</span>
-      </div>
-      <div class="card-body">
-        <p>{{this.comment}}</p>
-      </div>
+  <div class="card comment-card">
+    <div class="card-header">
+      <h2>{{this.author}}</h2>
+      <span>Posted on {{formatDate this.createdAt}}</span>
     </div>
-  {{/each}}
+    <div class="card-body">
+      <p>{{this.comment}}</p>
+    </div>
+  </div>
+{{/each}}
 
 {{! comment form card }}
 <div class="card comment-card">
