@@ -27,7 +27,10 @@ const blogPostData = [
 
 const seedBlogPost = async () => {
   await sequelize.sync({ force: true });
-  await User.bulkCreate(userData);
+  await User.bulkCreate(userData, {
+    individualHooks: true,
+    returning: true,
+  });
   await BlogPost.bulkCreate(blogPostData);
   process.exit(0);
 };
