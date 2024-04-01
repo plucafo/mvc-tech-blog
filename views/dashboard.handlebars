@@ -1,3 +1,57 @@
-<div class="bottom-button">
-    <a href="/new-post" class="btn">New Post</a>
+<!-- dashboard.handlebars -->
+<div class="container">
+  <a href="#" id="new-post-btn" class="btn btn-primary">New Post</a>
+  <div id="new-post-form" style="display: none;">
+    <form id="create-post-form">
+      <div class="form-group">
+        <label for="title">Title:</label>
+        <input type="text" id="title" name="title" required>
+      </div>
+      <div class="form-group">
+        <label for="content">Content:</label>
+        <textarea id="content" name="content" rows="5" required></textarea>
+      </div>
+      <button type="submit" class="btn btn-success">Submit</button>
+    </form>
   </div>
+</div>
+
+{{!-- script to show the new-post-form when the new-post-btn is clicked MOVE TO JS FOLDER --}}
+<script>
+  document.getElementById('new-post-btn').addEventListener('click', () => {
+    const form = document.getElementById('new-post-form');
+    if (form.style.display === 'none' || form.style.display === '') {
+      form.style.display = 'block';
+    } else {
+      form.style.display = 'none';
+    }
+  });
+</script>
+
+{{!-- script to handle the createPostFormHandler MOVE TO JS FOLDER --}}
+<script>
+  document.getElementById('create-post-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const title = document.getElementById('title').value.trim();
+    const content = document.getElementById('content').value.trim();
+
+    if (title && content) {
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title, content }),
+      });
+
+      if (response.ok) {
+        document.location.reload(); // Reload the page after successful submission
+      } else {
+        alert('Failed to create post');
+      }
+    } else {
+      alert('Please fill in all fields');
+    }
+  });
+</script>
