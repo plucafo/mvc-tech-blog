@@ -1,10 +1,20 @@
 const router = require('express').Router();
 const { User } = require('../../models');
 
+// route to /api/users for testing
+router.get('/', async (req, res) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router.post('/', async (req, res) => {
   try {
     const userData = await User.create(req.body);
-
+    
     req.session.save(() => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
@@ -19,6 +29,9 @@ router.post('/', async (req, res) => {
 router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
+
+    console.log("###############req email:", req.body.email);
+    console.log("###############req password:", req.body.password);
 
     if (!userData) {
       res

@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const BlogPost = require("../models/BlogPost");
 const Comment = require("../models/Comment");
+const User = require('../models/User');
 const withAuth = require('../utils/auth');
 
 // home '/' route to show all blog posts
@@ -53,16 +54,36 @@ router.post("/post/:id", async (req, res) => {
   }
 });
 
-// dashboard route
-router.get("/dashboard", withAuth, async (req, res) => {
-  const logoText = "Dashboard";
-  res.render("dashboard", { logoText });
+router.get('/dashboard', withAuth, async (req, res) => {
+  try {
+    const logoText = "My Dashboard";
+    // Find the logged in user based on the session ID
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: BlogPost }],
+    });
+
+    const user = userData.get({ plain: true });
+
+    res.render('dashboard', {
+      ...user,
+      logged_in: true,
+      logoText
+    });
+  } catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // login route
 router.get("/login", async (req, res) => {
   const logoText = "Login";
-  res.render("login", { logoText });
+  if (req.session.logged_in) {
+    res.redirect('/dashboard');
+    return;
+  }
+
+  res.render('login', { logoText });
 });
 
 // signup route

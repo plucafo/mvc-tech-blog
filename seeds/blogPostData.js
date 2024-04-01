@@ -1,5 +1,14 @@
 const sequelize = require("../config/connection");
 const BlogPost = require("../models/BlogPost");
+const User = require("../models/User")
+
+const userData = [
+  {
+    "name": "Admin",
+    "email": "admin@gmail.com",
+    "password": "password123"
+  }
+]
 
 const blogPostData = [
   {
@@ -18,6 +27,7 @@ const blogPostData = [
 
 const seedBlogPost = async () => {
   await sequelize.sync({ force: true });
+  await User.bulkCreate(userData);
   await BlogPost.bulkCreate(blogPostData);
   process.exit(0);
 };
