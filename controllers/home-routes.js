@@ -80,7 +80,7 @@ router.get("/dashboard", withAuth, async (req, res) => {
   }
 });
 
-// Example route to create a new post *NEW TESTING*
+// route to create a new blog post
 router.post('/api/posts', async (req, res) => {
   try {
     const { title, content } = req.body;

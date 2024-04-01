@@ -9,12 +9,12 @@
   </div>
 </div>
 
-{{!-- comment card --}}
+{{! comment card }}
 {{#each post.Comments}}
   <div class="card comment-card">
     <div class="card-header">
       <h2 id="commentCounter">#{{commentCounter @index}}</h2>
-      <span>Posted on {{formatDate this.createdAt}}</span>
+      <span>Posted by {{name}} on {{formatDate this.createdAt}}</span>
     </div>
     <div class="card-body">
       <p>{{this.comment}}</p>
