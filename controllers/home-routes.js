@@ -22,6 +22,9 @@ router.get("/post/:id", withAuth, async (req, res) => {
       {
         model: Comment,
       },
+      {
+        model: User,
+      },
     ],
   });
 
@@ -37,20 +40,29 @@ router.get("/post/:id", withAuth, async (req, res) => {
 router.post("/post/:id", async (req, res) => {
   try {
     const postId = req.params.id;
-    const { comment, author } = req.body;
+    const { comment } = req.body;
+
+    // Find the user by ID using req.session.user_id
+    const user = await User.findByPk(req.session.user_id);
+    
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     // Find the post by ID
     const post = await BlogPost.findByPk(postId);
 
-    // Create a new Comment instance
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+
+    // Create a new Comment instance and associate it with the post and user
     const newComment = await Comment.create({
       comment,
-      author,
+      user_id: req.session.user_id,
       blogPostId: postId,
     });
-
-    // Associate the new comment with the post using addComment on the post instance
-    await post.addComment(newComment);
 
     // Redirect the user back to the post page after submitting the comment
     res.redirect(`/post/${postId}`);
@@ -59,6 +71,7 @@ router.post("/post/:id", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 router.get("/dashboard", withAuth, async (req, res) => {
   try {
