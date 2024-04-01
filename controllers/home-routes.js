@@ -1,24 +1,22 @@
 const router = require("express").Router();
 const BlogPost = require("../models/BlogPost");
 const Comment = require("../models/Comment");
-const User = require('../models/User');
-const withAuth = require('../utils/auth');
+const User = require("../models/User");
+const withAuth = require("../utils/auth");
 
 // home '/' route to show all blog posts
 router.get("/", async (req, res) => {
-  const logoText = "The Tech Blog";
   const postData = await BlogPost.findAll();
   const posts = postData.map((data) => data.get({ plain: true }));
-  res.render("home", { 
-    posts, 
-    logoText,
-    logged_in: req.session.logged_in || false
-   });
+  res.render("home", {
+    posts,
+    logoText: "The Tech Blog",
+    logged_in: req.session.logged_in || false,
+  });
 });
 
 // route to show a single post
-router.get("/post/:id", async (req, res) => {
-  const logoText = `Post #${req.params.id}`;
+router.get("/post/:id", withAuth, async (req, res) => {
   const postData = await BlogPost.findByPk(req.params.id, {
     include: [
       {
@@ -28,7 +26,11 @@ router.get("/post/:id", async (req, res) => {
   });
 
   const post = postData.get({ plain: true });
-  res.render("post", { post, logoText });
+  res.render("post", {
+    post,
+    logoText: `Post #${req.params.id}`,
+    logged_in: req.session.logged_in || false,
+  });
 });
 
 // route to create a new comment on a specific post
@@ -58,21 +60,20 @@ router.post("/post/:id", async (req, res) => {
   }
 });
 
-router.get('/dashboard', withAuth, async (req, res) => {
+router.get("/dashboard", withAuth, async (req, res) => {
   try {
-    const logoText = "My Dashboard";
     // Find the logged in user based on the session ID
     const userData = await User.findByPk(req.session.user_id, {
-      attributes: { exclude: ['password'] },
+      attributes: { exclude: ["password"] },
       include: [{ model: BlogPost }],
     });
 
     const user = userData.get({ plain: true });
 
-    res.render('dashboard', {
+    res.render("dashboard", {
       ...user,
       logged_in: true,
-      logoText
+      logoText: "My Dashboard",
     });
   } catch (err) {
     res.status(500).json(err);
@@ -81,19 +82,17 @@ router.get('/dashboard', withAuth, async (req, res) => {
 
 // login route
 router.get("/login", async (req, res) => {
-  const logoText = "Login";
   if (req.session.logged_in) {
-    res.redirect('/dashboard');
+    res.redirect("/dashboard");
     return;
   }
 
-  res.render('login', { logoText });
+  res.render("login", { logoText: "Login" });
 });
 
 // signup route
 router.get("/signup", async (req, res) => {
-  const logoText = "Sign Up";
-  res.render("signup", { logoText });
+  res.render("signup", { logoText: "Sign Up" });
 });
 
 module.exports = router;

@@ -2,14 +2,14 @@ const router = require('express').Router();
 const { User } = require('../../models');
 
 // route to /api/users for testing
-router.get('/', async (req, res) => {
-  try {
-    const users = await User.findAll();
-    res.json(users);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// router.get('/', async (req, res) => {
+//   try {
+//     const users = await User.findAll();
+//     res.json(users);
+//   } catch (err) {
+//     res.status(500).json(err);
+//   }
+// });
 
 // route to create a new user account
 router.post('/', async (req, res) => {
@@ -20,7 +20,8 @@ router.post('/', async (req, res) => {
       req.session.user_id = userData.id;
       req.session.logged_in = true;
 
-      res.status(200).json(userData);
+      // res.status(200).json(userData);
+      res.redirect('/dashboard');
     });
   } catch (err) {
     res.status(400).json(err);
