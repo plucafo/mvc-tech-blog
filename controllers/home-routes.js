@@ -9,7 +9,11 @@ router.get("/", async (req, res) => {
   const logoText = "The Tech Blog";
   const postData = await BlogPost.findAll();
   const posts = postData.map((data) => data.get({ plain: true }));
-  res.render("home", { posts, logoText });
+  res.render("home", { 
+    posts, 
+    logoText,
+    logged_in: req.session.logged_in || false
+   });
 });
 
 // route to show a single post

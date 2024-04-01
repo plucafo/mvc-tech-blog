@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
   }
 });
 
+// route to create a new user account
 router.post('/', async (req, res) => {
   try {
     const userData = await User.create(req.body);
@@ -26,6 +27,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// route to login to an existing account
 router.post('/login', async (req, res) => {
   try {
     const userData = await User.findOne({ where: { email: req.body.email } });
@@ -61,6 +63,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// route to logout of an account
 router.post('/logout', (req, res) => {
   if (req.session.logged_in) {
     req.session.destroy(() => {
