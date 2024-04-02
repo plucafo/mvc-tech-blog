@@ -159,3 +159,8 @@
 #new-post-btn:hover {
   background-color: var(--secondary);
 }
+
+.your-posts {
+  color: var(--primary);
+  font-weight: bold;
+}

@@ -30,4 +30,33 @@ router.post('/', async (req, res) => {
     }
   });
 
+// DELETE route to delete a post by ID
+router.delete('/:id', withAuth, async (req, res) => {
+  try {
+    const postId = req.params.id;
+
+    // Find the post by ID
+    const post = await BlogPost.findByPk(postId);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if the logged-in user is the author of the post
+    if (post.user_id !== req.session.user_id) {
+      return res.status(403).json({ message: 'You are not authorized to delete this post' });
+    }
+
+    // Delete the post
+    await post.destroy();
+
+    // Send a success response
+    res.status(200).json({ message: 'Post deleted successfully' });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
