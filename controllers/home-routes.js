@@ -36,6 +36,32 @@ router.get("/post/:id", withAuth, async (req, res) => {
   });
 });
 
+// Dashboard route to show blog posts related to the logged-in user
+router.get('/dashboard', withAuth, async (req, res) => {
+  try {
+    // Find the user by ID using req.session.user_id
+    const user = await User.findByPk(req.session.user_id, {
+      include: BlogPost, // Include BlogPost model to fetch associated blog posts
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Get the blog posts associated with the user
+    const userPosts = user.BlogPosts.map(post => post.get({ plain: true }));
+
+    res.render('dashboard', {
+      userPosts,
+      logoText: 'Dashboard',
+      logged_in: true, // Assuming the user is logged in since it's a dashboard
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 // route to create a new comment on a specific post
 router.post("/post/:id", async (req, res) => {
   try {

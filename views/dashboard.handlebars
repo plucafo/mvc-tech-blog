@@ -21,6 +21,20 @@
   </div>
 </div>
 
+{{!-- display logged in users posts --}}
+{{#each userPosts}}
+<a href="/post/{{this.id}}" class="post-link">
+  <div class="card">
+    <div class="card-header">
+      <h2>{{this.title}}</h2>
+      <span>Posted by {{this.author}} on {{formatDate this.createdAt}}</span>
+    </div>
+    <div class="card-body">
+      <p>{{this.content}}</p>
+    </div>
+  </div>
+  </a>
+{{/each}}
 
 {{!-- script to show the new-post-form when the new-post-btn is clicked MOVE TO JS FOLDER --}}
 <script>
