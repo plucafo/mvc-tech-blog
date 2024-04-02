@@ -164,3 +164,15 @@
   color: var(--primary);
   font-weight: bold;
 }
+
+.delete-btn,
+.view-post-btn,
+.edit-btn {
+  color: var(--primary);
+}
+
+.delete-btn:hover,
+.view-post-btn:hover,
+.edit-btn:hover {
+  text-decoration: underline;
+}

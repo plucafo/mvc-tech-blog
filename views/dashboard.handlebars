@@ -30,15 +30,23 @@
     <div class="card-header">
       <h2>{{this.title}}</h2>
       <span>Posted by {{this.author}} on {{formatDate this.createdAt}}</span>
-      <!-- Add link/button for viewing post details -->
-      <a href="/post/{{this.id}}" class="btn btn-primary view-post-btn">View</a>
-      <!-- Delete button within the form -->
-      <form id="delete-form-{{this.id}}" action="/api/posts/{{this.id}}" method="DELETE" class="delete-form">
-        <button type="button" class="btn btn-danger delete-btn text-white" onclick="deletePost('{{this.id}}')">Delete</button>
-      </form>
     </div>
     <div class="card-body">
       <p>{{this.content}}</p>
+    </div>
+    <hr>
+    <div class="card-footer flex justify-end gap-4 mx-3.5">
+      <!-- Add link/button for viewing post details -->
+      <a href="/post/{{this.id}}" class="btn btn-primary view-post-btn italic">View</a>
+      <!-- Edit button within the form -->
+      <form id="edit-form-{{this.id}}" action="/post/{{this.id}}/edit" method="GET" class="edit-form">
+      <button type="submit" class="btn btn-warning edit-btn italic">Edit</button>
+      </form>
+
+      <!-- Delete button within the form -->
+      <form id="delete-form-{{this.id}}" action="/api/posts/{{this.id}}" method="DELETE" class="delete-form">
+        <button type="button" class="btn btn-danger delete-btn italic" onclick="deletePost('{{this.id}}')">Delete</button>
+      </form>
     </div>
   </div>
 {{/each}}
@@ -115,3 +123,4 @@
 }
 
 </script>
+
