@@ -176,3 +176,11 @@
 .edit-btn:hover {
   text-decoration: underline;
 }
+
+.save-btn {
+  background-color: var(--primary);
+}
+
+.save-btn:hover {
+  background-color: (var(--secondary));
+}
