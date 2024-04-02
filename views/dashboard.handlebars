@@ -1,20 +1,26 @@
-<!-- dashboard.handlebars -->
-<div class="container">
-  <a href="#" id="new-post-btn" class="btn btn-primary">New Post</a>
-  <div id="new-post-form" style="display: none;">
-    <form id="create-post-form">
-      <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-      </div>
-      <div class="form-group">
-        <label for="content">Content:</label>
-        <textarea id="content" name="content" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-success">Submit</button>
-    </form>
+{{!-- new post button and card --}}
+<div class="container new-post-container">
+  <a href="#" id="new-post-btn" class="btn btn-primary" style="margin-bottom: 20px;">New Post</a>
+  <div id="new-post-form" style="display: none;" class="card login-card">
+    <div class="card-header">
+      <h2>New Post</h2>
+    </div>
+    <div class="card-body">
+      <form id="create-post-form" class="form login-form">
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required>
+        </div>
+        <div class="form-group">
+          <label for="content">Content:</label>
+          <textarea id="new-post-content" class="w-full p-2.5" name="content" rows="5" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
   </div>
 </div>
+
 
 {{!-- script to show the new-post-form when the new-post-btn is clicked MOVE TO JS FOLDER --}}
 <script>
