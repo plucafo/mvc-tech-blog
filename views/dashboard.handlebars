@@ -1,6 +1,6 @@
 {{!-- new post button and card --}}
 <div class="container new-post-container">
-  <a href="#" id="new-post-btn" class="btn btn-primary" style="margin-bottom: 20px;">New Post</a>
+  <a href="#" id="new-post-btn" class="btn btn-primary" style="margin-bottom: 20px;">+ New Post</a>
   <div id="new-post-form" style="display: none;" class="card login-card">
     <div class="card-header">
       <h2>New Post</h2>
@@ -40,7 +40,7 @@
     event.preventDefault();
 
     const title = document.getElementById('title').value.trim();
-    const content = document.getElementById('content').value.trim();
+    const content = document.getElementById('new-post-content').value.trim();
 
     if (title && content) {
       const response = await fetch('/api/posts', {
