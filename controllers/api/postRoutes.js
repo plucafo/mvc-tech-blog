@@ -59,4 +59,34 @@ router.delete('/:id', withAuth, async (req, res) => {
   }
 });
 
+// PUT route to update a post by ID
+router.put('/:id', withAuth, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { title, content } = req.body;
+
+    // Find the post by ID
+    const post = await BlogPost.findByPk(id);
+
+    if (!post) {
+      return res.status(404).json({ message: 'Post not found' });
+    }
+
+    // Check if the logged-in user is the author of the post
+    if (post.user_id !== req.session.user_id) {
+      return res.status(403).json({ message: 'You are not authorized to edit this post' });
+    }
+
+    // Update the post with new title and content
+    await post.update({ title, content });
+
+    // Send a success response
+    res.status(200).json({ message: 'Post updated successfully', post });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;
