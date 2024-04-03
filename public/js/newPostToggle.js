@@ -7,13 +7,3 @@ document.getElementById("new-post-btn").addEventListener("click", () => {
     form.style.display = "none";
   }
 });
-
-// show the edit-post-form when the edit-post-btn is clicked
-document.getElementById('edit-btn').addEventListener('click', () => {
-  const form = document.getElementById('edit-form');
-  if (form.style.display === 'none' || form.style.display === '') {
-    form.style.display = 'block';
-  } else {
-    form.style.display = 'none';
-  }
-})
