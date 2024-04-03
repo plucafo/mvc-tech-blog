@@ -1,6 +1,11 @@
-{{!-- new post button and card --}}
+{{! Create post card }}
 <div class="container new-post-container">
-  <a href="#" id="new-post-btn" class="btn btn-primary" style="margin-bottom: 20px;">+ New Post</a>
+  <a
+    href="#"
+    id="new-post-btn"
+    class="btn btn-primary"
+    style="margin-bottom: 20px;"
+  >+ New Post</a>
   <div id="new-post-form" style="display: none;" class="card login-card">
     <div class="card-header">
       <h2>New Post</h2>
@@ -9,11 +14,17 @@
       <form id="create-post-form" class="form login-form">
         <div class="form-group">
           <label for="title">Title:</label>
-          <input type="text" id="title" name="title" required>
+          <input type="text" id="title" name="title" required />
         </div>
         <div class="form-group">
           <label for="content">Content:</label>
-          <textarea id="new-post-content" class="w-full p-2.5" name="content" rows="5" required></textarea>
+          <textarea
+            id="new-post-content"
+            class="w-full p-2.5"
+            name="content"
+            rows="5"
+            required
+          ></textarea>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
       </form>
@@ -21,7 +32,7 @@
   </div>
 </div>
 
-{{!-- display logged in users posts --}}
+{{! display logged in users posts }}
 {{#if userPosts}}
   <h2 class="your-posts ms-10">Your Posts:</h2>
 {{/if}}
@@ -34,24 +45,39 @@
     <div class="card-body">
       <p>{{this.content}}</p>
     </div>
-    <hr>
+    <hr />
     <div class="card-footer flex justify-end gap-4 mx-3.5">
       <!-- Add link/button for viewing post details -->
-      <a href="/post/{{this.id}}" class="btn btn-primary view-post-btn italic">View</a>
+      <a
+        href="/post/{{this.id}}"
+        class="btn btn-primary view-post-btn italic"
+      >View</a>
       <!-- Edit button within the card -->
 
-    <button type="button" id="edit-post-btn" class="btn btn-warning edit-btn italic">Edit</button>
-
+      <button
+        type="button"
+        id="edit-post-btn"
+        class="btn btn-warning edit-btn italic"
+      >Edit</button>
 
       <!-- Delete button within the form -->
-      <form id="delete-form-{{this.id}}" action="/api/posts/{{this.id}}" method="DELETE" class="delete-form">
-        <button type="button" class="btn btn-danger delete-btn italic" onclick="deletePost('{{this.id}}')">Delete</button>
+      <form
+        id="delete-form-{{this.id}}"
+        action="/api/posts/{{this.id}}"
+        method="DELETE"
+        class="delete-form"
+      >
+        <button
+          type="button"
+          class="btn btn-danger delete-btn italic"
+          onclick="deletePost('{{this.id}}')"
+        >Delete</button>
       </form>
     </div>
   </div>
 {{/each}}
 
-<!-- Edit form for individual posts -->
+<!-- Edit post card -->
 <div class="card" id="edit-post-form" style="display: none">
   <div class="card-header">
     <h2>Edit Post</h2>
@@ -60,14 +86,30 @@
     <form id="edit-post-form" action="/post/{{this.id}}/edit" method="POST">
       <div class="form-group">
         <label for="edit-title">Edit Title:</label>
-        <input type="text" id="edit-title" name="edit-title" class="w-full p-2.5" value="{{this.title}}" required>
+        <input
+          type="text"
+          id="edit-title"
+          name="edit-title"
+          class="w-full p-2.5"
+          value="{{this.title}}"
+          required
+        />
       </div>
       <div class="form-group">
         <label for="edit-content">Edit Content:</label>
-        <textarea id="edit-content" name="edit-content" class="w-full p-2.5" rows="5" required>{{this.content}}</textarea>
+        <textarea
+          id="edit-content"
+          name="edit-content"
+          class="w-full p-2.5"
+          rows="5"
+          required
+        >{{this.content}}</textarea>
       </div>
       <div class="button-container mt-5">
-        <button type="submit" class="btn btn-success save-btn w-full text-white">Save Changes</button>
+        <button
+          type="submit"
+          class="btn btn-success save-btn w-full text-white p-2"
+        >Save Changes</button>
       </div>
     </form>
   </div>
