@@ -73,53 +73,6 @@
   </div>
 </div>
 
-{{!-- script to show the edit-form when the edit-btn is clicked MOVE TO JS FOLDER --}}
-<script>
-  document.getElementById('edit-btn').addEventListener('click', () => {
-    const form = document.getElementById('edit-form');
-    if (form.style.display === 'none' || form.style.display === '') {
-      form.style.display = 'block';
-    } else {
-      form.style.display = 'none';
-    }
-  })
-</script>
-
-{{!-- script to handle the createPostFormHandler MOVE TO JS FOLDER --}}
-
-
-{{!-- deletePost function to be moved MOVE TO JS FOLDER --}}
-<script>
-  function deletePost(postId) {
-  if (confirm("Are you sure you want to delete this post?")) {
-    // Send a DELETE request using fetch API
-    fetch(`/api/posts/${postId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ postId: postId }),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Failed to delete post");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        // Post deleted successfully, you can handle the UI update here
-        console.log("Post deleted successfully");
-        // For example, you can remove the card from the UI
-        document.getElementById(`delete-form-${postId}`).parentElement.parentElement.remove();
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        alert("Failed to delete post");
-      });
-  }
-}
-
-</script>
-
 <script src="/js/toggle.js"></script>
 <script src="/js/createPost.js"></script>
+<script src="/js/deletePost.js"></script>
