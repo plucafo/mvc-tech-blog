@@ -38,10 +38,10 @@
     <div class="card-footer flex justify-end gap-4 mx-3.5">
       <!-- Add link/button for viewing post details -->
       <a href="/post/{{this.id}}" class="btn btn-primary view-post-btn italic">View</a>
-      <!-- Edit button within the form -->
-      <form id="edit-form-{{this.id}}" action="/post/{{this.id}}/edit" method="GET" class="edit-form">
-      <button type="submit" class="btn btn-warning edit-btn italic">Edit</button>
-      </form>
+      <!-- Edit button within the card -->
+<form class="edit-btn-form">
+    <button type="button" class="btn btn-warning edit-btn italic">Edit</button>
+</form>
 
       <!-- Delete button within the form -->
       <form id="delete-form-{{this.id}}" action="/api/posts/{{this.id}}" method="DELETE" class="delete-form">
@@ -52,7 +52,7 @@
 {{/each}}
 
 <!-- Edit form for individual posts -->
-<div class="card" id="edit-form-{{this.id}}" style="">
+<div class="card" id="edit-form" style="">
   <div class="card-header">
     <h2>Edit Post</h2>
   </div>
@@ -73,45 +73,20 @@
   </div>
 </div>
 
-{{!-- script to show the new-post-form when the new-post-btn is clicked MOVE TO JS FOLDER --}}
+{{!-- script to show the edit-form when the edit-btn is clicked MOVE TO JS FOLDER --}}
 <script>
-  document.getElementById('new-post-btn').addEventListener('click', () => {
-    const form = document.getElementById('new-post-form');
+  document.getElementById('edit-btn').addEventListener('click', () => {
+    const form = document.getElementById('edit-form');
     if (form.style.display === 'none' || form.style.display === '') {
       form.style.display = 'block';
     } else {
       form.style.display = 'none';
     }
-  });
+  })
 </script>
 
 {{!-- script to handle the createPostFormHandler MOVE TO JS FOLDER --}}
-<script>
-  document.getElementById('create-post-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
 
-    const title = document.getElementById('title').value.trim();
-    const content = document.getElementById('new-post-content').value.trim();
-
-    if (title && content) {
-      const response = await fetch('/api/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, content }),
-      });
-
-      if (response.ok) {
-        document.location.reload(); // Reload the page after successful submission
-      } else {
-        alert('Failed to create post');
-      }
-    } else {
-      alert('Please fill in all fields');
-    }
-  });
-</script>
 
 {{!-- deletePost function to be moved MOVE TO JS FOLDER --}}
 <script>
@@ -146,3 +121,5 @@
 
 </script>
 
+<script src="/js/toggle.js"></script>
+<script src="/js/createPost.js"></script>
