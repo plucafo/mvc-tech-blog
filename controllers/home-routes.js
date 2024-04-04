@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
 });
 
 // route to show a single post
-router.get("/post/:id", withAuth, async (req, res) => {
+router.get("/posts/:id", withAuth, async (req, res) => {
   const postData = await BlogPost.findByPk(req.params.id, {
     include: [
       {
@@ -37,7 +37,7 @@ router.get("/post/:id", withAuth, async (req, res) => {
 });
 
 // Dashboard route to show blog posts related to the logged-in user
-router.get('/dashboard', withAuth, async (req, res) => {
+router.get("/dashboard", withAuth, async (req, res) => {
   try {
     // Find the user by ID using req.session.user_id
     const user = await User.findByPk(req.session.user_id, {
@@ -45,35 +45,35 @@ router.get('/dashboard', withAuth, async (req, res) => {
     });
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Get the blog posts associated with the user
-    const userPosts = user.BlogPosts.map(post => post.get({ plain: true }));
+    const userPosts = user.BlogPosts.map((post) => post.get({ plain: true }));
 
-    res.render('dashboard', {
+    res.render("dashboard", {
       userPosts,
-      logoText: 'Dashboard',
+      logoText: "Dashboard",
       logged_in: true, // Assuming the user is logged in since it's a dashboard
     });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ message: 'Internal Server Error' });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
 // route to create a new comment on a specific post
-router.post("/post/:id", async (req, res) => {
+router.post("/posts/:id", async (req, res) => {
   try {
     const postId = req.params.id;
     const { comment } = req.body;
 
     // Find the user by ID using req.session.user_id
     const user = await User.findByPk(req.session.user_id);
-    
+
     // Check if user exists
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ message: "User not found" });
     }
 
     // Find the post by ID
@@ -91,13 +91,12 @@ router.post("/post/:id", async (req, res) => {
     });
 
     // Redirect the user back to the post page after submitting the comment
-    res.redirect(`/post/${postId}`);
+    res.redirect(`/posts/${postId}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
   }
 });
-
 
 router.get("/dashboard", withAuth, async (req, res) => {
   try {
@@ -118,9 +117,6 @@ router.get("/dashboard", withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-
-
 
 // login route
 router.get("/login", async (req, res) => {

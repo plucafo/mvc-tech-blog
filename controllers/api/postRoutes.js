@@ -3,7 +3,6 @@ const { BlogPost, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
 // api/posts route for testing
-// api/posts route for testing
 router.get('/', async (req, res) => {
   try {
     const postData = await BlogPost.findAll(); // Use await to wait for the findAll() promise to resolve
