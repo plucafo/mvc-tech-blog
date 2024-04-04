@@ -2,6 +2,17 @@ const router = require('express').Router();
 const { BlogPost, User } = require('../../models');
 const withAuth = require('../../utils/auth');
 
+// api/posts route for testing
+// api/posts route for testing
+router.get('/', async (req, res) => {
+  try {
+    const postData = await BlogPost.findAll(); // Use await to wait for the findAll() promise to resolve
+    res.json(postData);
+  } catch (err) {
+    res.status(500).json(err); // Set status to 500 for internal server error
+  }
+});
+
 // route to create a new blog post
 router.post('/', async (req, res) => {
     try {
