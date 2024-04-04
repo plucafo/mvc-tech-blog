@@ -1,47 +1,33 @@
-// Add event listeners for edit post button and save changes button
 document.addEventListener('DOMContentLoaded', () => {
-    const editPostBtns = document.querySelectorAll('.edit-btn');
-    const saveBtn = document.querySelector('.save-btn');
-  
-    editPostBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        toggleEditPostForm();
-        const postId = btn.dataset.postId; // Assuming you have a data attribute to store post ID
-        const title = btn.dataset.title; // Assuming you have a data attribute to store post title
-        const content = btn.dataset.content; // Assuming you have a data attribute to store post content
-  
-        // Populate the edit form with post data
-        document.getElementById('edit-title').value = title;
-        document.getElementById('edit-content').value = content;
-  
-        // Set the form action to the correct post ID
-        document.getElementById('edit-post-form').action = `/api/posts/${postId}`;
-      });
-    });
-  
-    saveBtn.addEventListener('click', async (e) => {
-      e.preventDefault();
-  
-      const form = document.getElementById('edit-post-form');
-      const formData = new FormData(form);
-  
+  const editButtons = document.querySelectorAll('.edit-btn');
+
+  editButtons.forEach(button => {
+    button.addEventListener('click', async () => {
+      const postId = button.dataset.postId;
+
       try {
-        const response = await fetch(form.action, {
-          method: 'PUT',
-          body: formData,
+        const response = await fetch(`/api/posts/${postId}`, {
+          method: 'GET', // Use GET instead of PUT
+          headers: {
+            'Content-Type': 'application/json'
+          }
         });
-  
-        if (response.ok) {
-          // Reload the page or show a success message
-          window.location.reload(); // Example: reload the page after successful update
-        } else {
-          const errorData = await response.json();
-          console.error('Error:', errorData.message);
-          // Handle error response (e.g., display error message to the user)
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch post data');
         }
-      } catch (err) {
-        console.error('Error:', err);
-        // Handle network errors
+
+        const postData = await response.json();
+        
+        // Extract title and content from postData
+        const { title, content } = postData;
+
+        // Log title and content separately
+        console.log("Post Title:", title);
+        console.log("Post Content:", content);
+      } catch (error) {
+        console.error('Error fetching post data:', error);
       }
     });
   });
+});

@@ -49,7 +49,7 @@
     <div class="card-footer flex justify-end gap-4 mx-3.5">
       <!-- Add link/button for viewing post details -->
       <a
-        href="/post/{{this.id}}"
+        href="/posts/{{this.id}}"
         class="btn btn-primary view-post-btn italic"
       >View</a>
       <!-- Edit button within the card -->
@@ -58,6 +58,7 @@
         type="button"
         id="edit-post-btn"
         class="btn btn-warning edit-btn italic"
+        data-post-id="{{this.id}}"
       >Edit</button>
 
       <!-- Delete button within the form -->
