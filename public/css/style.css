@@ -179,8 +179,14 @@
 
 .save-btn {
   background-color: var(--primary);
+  transition: all 0.3s;
 }
 
-.save-btn:hover {
-  background-color: (var(--secondary));
+.save-btn[type="submit"]:hover {
+  background-color: var(--secondary);
+}
+
+.edit-title,
+.edit-content {
+  border-color: var(--primary);
 }

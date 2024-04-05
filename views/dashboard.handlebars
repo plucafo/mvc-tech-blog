@@ -48,29 +48,33 @@
     </div>
 
     <!-- Edit post form within the card (hidden initially) -->
-    <div class="edit-post-form" id="edit-post-form-{{this.id}}" style="display: none">
+    <div
+      class="edit-post-form"
+      id="edit-post-form-{{this.id}}"
+      style="display: none"
+    >
       <div class="card-header">
-        <h2>Edit {{this.title}}</h2>
+        <h2>Make Changes To "{{this.title}}"</h2>
       </div>
       <div class="card-body">
         <form id="edit-post-form-data-{{this.id}}">
           <div class="form-group">
-            <label for="edit-title">Edit Title:</label>
+            <label for="edit-title">Edit Post Title:</label>
             <input
               type="text"
               id="edit-title-{{this.id}}"
               name="edit-title"
-              class="w-full p-2.5"
+              class="w-full p-2.5 border-2 border-solid edit-title"
               value="{{this.title}}"
               required
             />
           </div>
           <div class="form-group">
-            <label for="edit-content">Edit Content:</label>
+            <label for="edit-content">Edit Post Content:</label>
             <textarea
               id="edit-content-{{this.id}}"
               name="edit-content"
-              class="w-full p-2.5"
+              class="w-full p-2.5 border-2 border-solid edit-content"
               rows="5"
               required
             >{{this.content}}</textarea>
@@ -119,45 +123,6 @@
     </div>
   </div>
 {{/each}}
-
-<!-- Edit post card -->
-{{!-- <div class="card" id="edit-post-form" style="display: none">
-  <div class="card-header">
-    <h2>Edit Post {{userPosts.title}}</h2>
-  </div>
-  <div class="card-body">
-    <form id="edit-post-form" data-post-id="{{postId}}">
-      <div class="form-group">
-        <label for="edit-title">Edit Title:</label>
-        <input
-          type="text"
-          id="edit-title"
-          name="edit-title"
-          class="w-full p-2.5"
-          value="{{this.title}}"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label for="edit-content">Edit Content:</label>
-        <textarea
-          id="edit-content"
-          name="edit-content"
-          class="w-full p-2.5"
-          rows="5"
-          required
-        >{{this.content}}</textarea>
-      </div>
-      <div class="button-container mt-5">
-        <button
-          type="submit"
-          class="btn btn-success save-btn w-full text-white p-2"
-          data-post-id="{{this.id}}"
-        >Save Changes</button>
-      </div>
-    </form>
-  </div>
-</div> --}}
 
 <script src="/js/newPostToggle.js"></script>
 <script src="/js/editPostToggle.js"></script>
