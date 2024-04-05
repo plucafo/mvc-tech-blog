@@ -16,11 +16,14 @@ router.get("/", async (req, res) => {
 });
 
 // route to show a single post
-router.get("/post/:id", withAuth, async (req, res) => {
+router.get("/posts/:id", withAuth, async (req, res) => {
   const postData = await BlogPost.findByPk(req.params.id, {
     include: [
       {
         model: Comment,
+      },
+      {
+        model: User,
       },
     ],
   });
@@ -33,27 +36,62 @@ router.get("/post/:id", withAuth, async (req, res) => {
   });
 });
 
+// Dashboard route to show blog posts related to the logged-in user
+router.get("/dashboard", withAuth, async (req, res) => {
+  try {
+    // Find the user by ID using req.session.user_id
+    const user = await User.findByPk(req.session.user_id, {
+      include: BlogPost, // Include BlogPost model to fetch associated blog posts
+    });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Get the blog posts associated with the user
+    const userPosts = user.BlogPosts.map((post) => post.get({ plain: true }));
+
+    res.render("dashboard", {
+      userPosts,
+      logoText: "Dashboard",
+      logged_in: true, // Assuming the user is logged in since it's a dashboard
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 // route to create a new comment on a specific post
-router.post("/post/:id", async (req, res) => {
+router.post("/posts/:id", async (req, res) => {
   try {
     const postId = req.params.id;
-    const { comment, author } = req.body;
+    const { comment } = req.body;
+
+    // Find the user by ID using req.session.user_id
+    const user = await User.findByPk(req.session.user_id);
+
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
     // Find the post by ID
     const post = await BlogPost.findByPk(postId);
 
-    // Create a new Comment instance
+    if (!post) {
+      return res.status(404).send("Post not found");
+    }
+
+    // Create a new Comment instance and associate it with the post and user
     const newComment = await Comment.create({
       comment,
-      author,
+      user_id: req.session.user_id,
       blogPostId: postId,
     });
 
-    // Associate the new comment with the post using addComment on the post instance
-    await post.addComment(newComment);
-
     // Redirect the user back to the post page after submitting the comment
-    res.redirect(`/post/${postId}`);
+    res.redirect(`/posts/${postId}`);
   } catch (err) {
     console.error(err);
     res.status(500).send("Internal Server Error");
@@ -79,35 +117,6 @@ router.get("/dashboard", withAuth, async (req, res) => {
     res.status(500).json(err);
   }
 });
-
-// route to create a new blog post
-router.post('/api/posts', async (req, res) => {
-  try {
-    const { title, content } = req.body;
-    
-    // Find the user by ID using req.session.user_id
-    const user = await User.findByPk(req.session.user_id);
-    
-    // Check if user exists
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Create a new post using the user's name as the author
-    const newPost = await BlogPost.create({
-      title,
-      content,
-      author: user.name, // Use user's name as the author
-      user_id: user.id,
-    });
-
-    res.status(201).json(newPost);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Failed to create post' });
-  }
-});
-
 
 // login route
 router.get("/login", async (req, res) => {

@@ -1,57 +1,166 @@
-<!-- dashboard.handlebars -->
-<div class="container">
-  <a href="#" id="new-post-btn" class="btn btn-primary">New Post</a>
-  <div id="new-post-form" style="display: none;">
-    <form id="create-post-form">
-      <div class="form-group">
-        <label for="title">Title:</label>
-        <input type="text" id="title" name="title" required>
-      </div>
-      <div class="form-group">
-        <label for="content">Content:</label>
-        <textarea id="content" name="content" rows="5" required></textarea>
-      </div>
-      <button type="submit" class="btn btn-success">Submit</button>
-    </form>
+{{! Create post card }}
+<div class="container new-post-container">
+  <a
+    href="#"
+    id="new-post-btn"
+    class="btn btn-primary"
+    style="margin-bottom: 20px;"
+  >+ New Post</a>
+  <div id="new-post-form" style="display: none;" class="card login-card">
+    <div class="card-header">
+      <h2>New Post</h2>
+    </div>
+    <div class="card-body">
+      <form id="create-post-form" class="form login-form">
+        <div class="form-group">
+          <label for="title">Title:</label>
+          <input type="text" id="title" name="title" required />
+        </div>
+        <div class="form-group">
+          <label for="content">Content:</label>
+          <textarea
+            id="new-post-content"
+            class="w-full p-2.5"
+            name="content"
+            rows="5"
+            required
+          ></textarea>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+      </form>
+    </div>
   </div>
 </div>
 
-{{!-- script to show the new-post-form when the new-post-btn is clicked MOVE TO JS FOLDER --}}
-<script>
-  document.getElementById('new-post-btn').addEventListener('click', () => {
-    const form = document.getElementById('new-post-form');
-    if (form.style.display === 'none' || form.style.display === '') {
-      form.style.display = 'block';
-    } else {
-      form.style.display = 'none';
-    }
-  });
-</script>
+{{! display logged in users posts }}
+{{#if userPosts}}
+  <h2 class="your-posts ms-10">Your Posts:</h2>
+{{/if}}
 
-{{!-- script to handle the createPostFormHandler MOVE TO JS FOLDER --}}
-<script>
-  document.getElementById('create-post-form').addEventListener('submit', async (event) => {
-    event.preventDefault();
+{{#each userPosts}}
+  <div class="card">
+    <div class="card-header">
+      <h2>{{this.title}}</h2>
+      <span>Posted by {{this.author}} on {{formatDate this.createdAt}}</span>
+    </div>
+    <div class="card-body">
+      <p>{{this.content}}</p>
+    </div>
 
-    const title = document.getElementById('title').value.trim();
-    const content = document.getElementById('content').value.trim();
+    <!-- Edit post form within the card (hidden initially) -->
+    <div class="edit-post-form" id="edit-post-form-{{this.id}}" style="display: none">
+      <div class="card-header">
+        <h2>Edit {{this.title}}</h2>
+      </div>
+      <div class="card-body">
+        <form id="edit-post-form-data-{{this.id}}">
+          <div class="form-group">
+            <label for="edit-title">Edit Title:</label>
+            <input
+              type="text"
+              id="edit-title-{{this.id}}"
+              name="edit-title"
+              class="w-full p-2.5"
+              value="{{this.title}}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-content">Edit Content:</label>
+            <textarea
+              id="edit-content-{{this.id}}"
+              name="edit-content"
+              class="w-full p-2.5"
+              rows="5"
+              required
+            >{{this.content}}</textarea>
+          </div>
+          <div class="button-container mt-5">
+            <button
+              type="submit"
+              class="btn btn-success save-btn w-full text-white p-2"
+              data-post-id="{{this.id}}"
+              onclick="saveChanges('{{this.id}}')"
+            >Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
-    if (title && content) {
-      const response = await fetch('/api/posts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title, content }),
-      });
+    <!-- Card footer -->
+    <div class="card-footer flex justify-end gap-4 mx-3.5">
+      <!-- Add link/button for viewing post details -->
+      <a
+        href="/posts/{{this.id}}"
+        class="btn btn-primary view-post-btn italic"
+      >View</a>
 
-      if (response.ok) {
-        document.location.reload(); // Reload the page after successful submission
-      } else {
-        alert('Failed to create post');
-      }
-    } else {
-      alert('Please fill in all fields');
-    }
-  });
-</script>
+      <!-- Edit button within the card -->
+      <button
+        type="button"
+        class="btn btn-warning edit-btn italic"
+        data-post-id="{{this.id}}"
+        onclick="toggleEditPostForm('{{this.id}}')"
+      >Edit</button>
+
+      <!-- Delete button within the form -->
+      <form
+        id="delete-form-{{this.id}}"
+        action="/api/posts/{{this.id}}"
+        method="DELETE"
+        class="delete-form"
+      >
+        <button
+          type="button"
+          class="btn btn-danger delete-btn italic"
+          onclick="deletePost('{{this.id}}')"
+        >Delete</button>
+      </form>
+    </div>
+  </div>
+{{/each}}
+
+<!-- Edit post card -->
+{{!-- <div class="card" id="edit-post-form" style="display: none">
+  <div class="card-header">
+    <h2>Edit Post {{userPosts.title}}</h2>
+  </div>
+  <div class="card-body">
+    <form id="edit-post-form" data-post-id="{{postId}}">
+      <div class="form-group">
+        <label for="edit-title">Edit Title:</label>
+        <input
+          type="text"
+          id="edit-title"
+          name="edit-title"
+          class="w-full p-2.5"
+          value="{{this.title}}"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <label for="edit-content">Edit Content:</label>
+        <textarea
+          id="edit-content"
+          name="edit-content"
+          class="w-full p-2.5"
+          rows="5"
+          required
+        >{{this.content}}</textarea>
+      </div>
+      <div class="button-container mt-5">
+        <button
+          type="submit"
+          class="btn btn-success save-btn w-full text-white p-2"
+          data-post-id="{{this.id}}"
+        >Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div> --}}
+
+<script src="/js/newPostToggle.js"></script>
+<script src="/js/editPostToggle.js"></script>
+<script src="/js/createPost.js"></script>
+<script src="/js/deletePost.js"></script>
+<script src="/js/editPost.js"></script>

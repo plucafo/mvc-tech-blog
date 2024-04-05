@@ -115,7 +115,6 @@
   width: 100%;
   padding: 10px;
   border: 2px solid var(--primary);
-  border-radius: 5px;
 }
 
 .login-card button[type="submit"] {
@@ -132,4 +131,56 @@
 
 .login-card button[type="submit"]:hover {
   background-color: var(--secondary);
+}
+
+.new-post-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px; /* Add padding to top */
+}
+
+#new-post-content {
+  border: 2px solid var(--primary);
+}
+
+#new-post-btn {
+  background-color: var(--primary);
+  color: white;
+  padding: 10px;
+  margin: 10px;
+  display: block;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  transition: all 0.3s ease;
+}
+
+#new-post-btn:hover {
+  background-color: var(--secondary);
+}
+
+.your-posts {
+  color: var(--primary);
+  font-weight: bold;
+}
+
+.delete-btn,
+.view-post-btn,
+.edit-btn {
+  color: var(--primary);
+}
+
+.delete-btn:hover,
+.view-post-btn:hover,
+.edit-btn:hover {
+  text-decoration: underline;
+}
+
+.save-btn {
+  background-color: var(--primary);
+}
+
+.save-btn:hover {
+  background-color: (var(--secondary));
 }
