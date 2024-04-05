@@ -36,6 +36,7 @@
 {{#if userPosts}}
   <h2 class="your-posts ms-10">Your Posts:</h2>
 {{/if}}
+
 {{#each userPosts}}
   <div class="card">
     <div class="card-header">
@@ -45,20 +46,61 @@
     <div class="card-body">
       <p>{{this.content}}</p>
     </div>
-    <hr />
+
+    <!-- Edit post form within the card (hidden initially) -->
+    <div class="edit-post-form" id="edit-post-form-{{this.id}}" style="display: none">
+      <div class="card-header">
+        <h2>Edit {{this.title}}</h2>
+      </div>
+      <div class="card-body">
+        <form id="edit-post-form-data-{{this.id}}">
+          <div class="form-group">
+            <label for="edit-title">Edit Title:</label>
+            <input
+              type="text"
+              id="edit-title-{{this.id}}"
+              name="edit-title"
+              class="w-full p-2.5"
+              value="{{this.title}}"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="edit-content">Edit Content:</label>
+            <textarea
+              id="edit-content-{{this.id}}"
+              name="edit-content"
+              class="w-full p-2.5"
+              rows="5"
+              required
+            >{{this.content}}</textarea>
+          </div>
+          <div class="button-container mt-5">
+            <button
+              type="submit"
+              class="btn btn-success save-btn w-full text-white p-2"
+              data-post-id="{{this.id}}"
+              onclick="saveChanges('{{this.id}}')"
+            >Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Card footer -->
     <div class="card-footer flex justify-end gap-4 mx-3.5">
       <!-- Add link/button for viewing post details -->
       <a
         href="/posts/{{this.id}}"
         class="btn btn-primary view-post-btn italic"
       >View</a>
-      <!-- Edit button within the card -->
 
+      <!-- Edit button within the card -->
       <button
         type="button"
-        id="edit-post-btn"
         class="btn btn-warning edit-btn italic"
         data-post-id="{{this.id}}"
+        onclick="toggleEditPostForm('{{this.id}}')"
       >Edit</button>
 
       <!-- Delete button within the form -->
@@ -79,9 +121,9 @@
 {{/each}}
 
 <!-- Edit post card -->
-<div class="card" id="edit-post-form" style="display: none">
+{{!-- <div class="card" id="edit-post-form" style="display: none">
   <div class="card-header">
-    <h2>Edit Post</h2>
+    <h2>Edit Post {{userPosts.title}}</h2>
   </div>
   <div class="card-body">
     <form id="edit-post-form" data-post-id="{{postId}}">
@@ -115,7 +157,7 @@
       </div>
     </form>
   </div>
-</div>
+</div> --}}
 
 <script src="/js/newPostToggle.js"></script>
 <script src="/js/editPostToggle.js"></script>
