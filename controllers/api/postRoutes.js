@@ -87,4 +87,32 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+// Handle PUT request to update a specific post by ID
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const { editTitle, editContent } = req.body;
+
+  try {
+    const post = await BlogPost.findByPk(id);
+
+    if (!post) {
+      return res.status(404).json({ error: 'Post not found' });
+    }
+
+    // Update the post with the new title and content using the update method
+    await BlogPost.update(
+      { title: editTitle, content: editContent },
+      { where: { id: id } }
+    );
+
+    // Fetch the updated post to send back in the response
+    const updatedPost = await BlogPost.findByPk(id);
+
+    res.json(updatedPost); // Respond with the updated post
+  } catch (error) {
+    console.error('Error updating post:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
 module.exports = router;

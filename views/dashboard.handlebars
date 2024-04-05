@@ -84,7 +84,7 @@
     <h2>Edit Post</h2>
   </div>
   <div class="card-body">
-    <form id="edit-post-form" action="/post/{{this.id}}/edit" method="POST">
+    <form id="edit-post-form" data-post-id="{{postId}}">
       <div class="form-group">
         <label for="edit-title">Edit Title:</label>
         <input
@@ -110,6 +110,7 @@
         <button
           type="submit"
           class="btn btn-success save-btn w-full text-white p-2"
+          data-post-id="{{this.id}}"
         >Save Changes</button>
       </div>
     </form>
