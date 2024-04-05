@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       try {
         const response = await fetch(`/api/posts/${postId}`, {
-          method: 'GET', // Use GET instead of PUT
+          method: 'GET',
           headers: {
             'Content-Type': 'application/json'
           }
@@ -25,6 +25,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Log title and content separately
         console.log("Post Title:", title);
         console.log("Post Content:", content);
+        document.getElementById('edit-title').value = title;
+        document.getElementById('edit-content').value = content;
+        toggleEditPostForm();
       } catch (error) {
         console.error('Error fetching post data:', error);
       }
